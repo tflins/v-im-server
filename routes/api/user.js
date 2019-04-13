@@ -9,7 +9,10 @@ const router = new Router()
  */
 router.get('/test', async ctx => {
   ctx.status = 200
-  ctx.body = {msg: '接口正常'}
+  ctx.body = {
+    success: true,
+    msg: '接口正常'
+  }
 })
 
 /**

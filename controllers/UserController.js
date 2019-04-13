@@ -1,5 +1,7 @@
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
 const tools = require('../config/tools')
+const secretOrKey = require('../config/keys').secretOrKey
 
 class UserController {
   // 注册
@@ -59,11 +61,21 @@ class UserController {
       // 验证密码
       const result = await tools.debcrypt(userInfo.password, user.password)
       if (result) {
+        // 密码正确, 返回 token
+        const payload = { id: user.id, name: user.name, email: user.email }
+        const token = jwt.sign(payload, secretOrKey, { expiresIn: 60 * 60 })
+        ctx.status = 200
         ctx.body = {
-          msg: '密码正确'
+          success: true,
+          data: {
+            token: `Bearer ${token}`
+          },
+          msg: '登录成功'
         }
       } else {
+        ctx.status = 400
         ctx.body = {
+          success: false,
           msg: '密码错误'
         }
       }
