@@ -19,4 +19,6 @@ router.get('/test', async ctx => {
  */
 router.post('/register', userCtrl.register)
 
+router.post('/login', userCtrl.login)
+
 module.exports = router.routes()
