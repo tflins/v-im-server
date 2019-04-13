@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
 const User = require('../models/User')
+const tools = require('../config/tools')
 
 class UserController {
   async register(ctx) {
@@ -18,17 +18,25 @@ class UserController {
       const newUser = new User({
         email: userInfo.email,
         name: userInfo.name,
-        password: userInfo.password
+        password: tools.enbcrypt(userInfo.password)
       })
       // 保持
       await newUser.save().then(user => {
         ctx.status = 200
-        ctx.body = user
+        ctx.body = {
+          success: true,
+          data: {
+            email: user.email,
+            name: user.name,
+            date: user.date
+          },
+          msg: '注册成功'
+        }
       }).catch(err => {
+        ctx.status = 500
         throw err
       })
     }
-    console.log(findResult)
   }
 }
 
