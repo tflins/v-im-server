@@ -11,7 +11,7 @@ class UserController {
     const findResult = await User.find({ email: userInfo.email })
     // 若存在
     if (findResult.length) {
-      ctx.status = 500
+      // ctx.status = 200
       ctx.body = {
         success: false,
         msg: '该邮箱已被注册'
@@ -51,7 +51,7 @@ class UserController {
     const findResult = await User.find({ email: userInfo.email })
     // 若不存在
     if (!findResult.length) {
-      ctx.status = 404
+      // ctx.status = 404
       ctx.body = {
         success: false,
         msg: '该用户未注册'
@@ -68,12 +68,18 @@ class UserController {
         ctx.body = {
           success: true,
           data: {
-            token: `Bearer ${token}`
+            token: `Bearer ${token}`,
+            userInfo: {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              key: Math.random()
+            }
           },
           msg: '登录成功'
         }
       } else {
-        ctx.status = 400
+        // ctx.status = 400
         ctx.body = {
           success: false,
           msg: '密码错误'
