@@ -4,7 +4,8 @@ const bodyParser = require('koa-bodyparser')
 const mongoose = require('mongoose')
 const socket = require('socket.io')
 const cors = require('koa2-cors')
-const SocketIoConjtroller = require('./controllers/SocketIoConjtroller')
+const SocketIoController = require('./controllers/SocketIoController')
+const passport = require('koa-passport')
 
 const db = require('./config/keys').mongoURI
 const port = process.env.PORT || 5000
@@ -25,6 +26,7 @@ app.use(router.routes()).use(router.allowedMethods())
 
 // 配置路由
 router.use('/api/user', require('./routes/api/user'))
+router.use('/api/groupchart', require('./routes/api/groupChat'))
 
 // 连接数据库
 mongoose
@@ -36,6 +38,12 @@ mongoose
     console.log('连接数据库失败')
     throw err
   })
+
+// 验证 token
+app.use(passport.initialize())
+app.use(passport.session())
+// 回调到 config/passport.js 
+require('./config/passport')(passport)
 
 io.on('connection', socket => {
   // 登录
