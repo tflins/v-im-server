@@ -1,4 +1,4 @@
-class SocketIoConjtroller {
+class SocketIoController {
   // 登录
   static async login(userInfo, socket) {
     console.log('用户登录')
@@ -7,4 +7,4 @@ class SocketIoConjtroller {
   }
 }
 
-module.exports = SocketIoConjtroller
+module.exports = SocketIoController

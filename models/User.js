@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
-const Scheam = mongoose.Schema
+const Schema = mongoose.Schema
 
 // 实例化数据模板
-const UserScheam = new Scheam({
+const UserSchema = new Schema({
   email: {
     type: String,
     required: true
@@ -21,4 +21,4 @@ const UserScheam = new Scheam({
   }
 })
 
-module.exports = User = mongoose.model('user', UserScheam)
+module.exports = User = mongoose.model('user', UserSchema)

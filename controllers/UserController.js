@@ -44,6 +44,7 @@ class UserController {
         })
     }
   }
+
   // 登录
   static async login(ctx) {
     const userInfo = ctx.request.body
@@ -72,8 +73,7 @@ class UserController {
             userInfo: {
               id: user.id,
               name: user.name,
-              email: user.email,
-              key: Math.random()
+              email: user.email
             }
           },
           msg: '登录成功'

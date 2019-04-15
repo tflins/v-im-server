@@ -1,6 +1,7 @@
 const Router = require('koa-router')
 const router = new Router()
 const passport = require('koa-passport')
+const GroupChatCtrl = require('../../controllers/GroupChatController')
 
 /**
  * @router GET /api/user/test
@@ -10,7 +11,7 @@ const passport = require('koa-passport')
 router.post(
   '/saveGroupMessage',
   passport.authenticate('jwt', { session: false }),
-  
+  GroupChatCtrl.saveGroupMessage
 )
 
 module.exports = router.routes()
