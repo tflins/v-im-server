@@ -48,7 +48,7 @@ require('./config/passport')(passport)
 io.on('connection', socket => {
   // 登录
   socket.on('login', userInfo => {
-    SocketIoConjtroller.login(userInfo, socket)
+    SocketIoController.login(userInfo, socket)
   })
   // 群聊
   socket.on('sendGroupMsg', async data => {
