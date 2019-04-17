@@ -87,6 +87,23 @@ class UserController {
       }
     }
   }
+
+  // 根据昵称获取用户
+  static async getName(ctx) {
+    const findResult = await User.find({name: ctx.query.name})
+    if (findResult.length) {
+      ctx.body = {
+        success: true,
+        data: findResult,
+        msg: '查询成功'
+      }
+    } else {
+      ctx.body = {
+        success: false,
+        msg: '未找到该用户'
+      }
+    }
+  }
 }
 
 module.exports = UserController

@@ -1,6 +1,7 @@
 const Router = require('koa-router')
 const userCtrl = require('../../controllers/UserController')
 const router = new Router()
+const passport = require('koa-passport')
 
 /**
  * @router GET /api/user/test
@@ -28,5 +29,16 @@ router.post('/register', userCtrl.register)
  * @access 接口是公开的
  */
 router.post('/login', userCtrl.login)
+
+/**
+ * @router GET /api/user/getname
+ * @desc 根据用户名获取用户信息
+ * @access 接口是私密的
+ */
+router.get(
+  '/getname',
+  passport.authenticate('jwt', { session: false }),
+  userCtrl.getName
+)
 
 module.exports = router.routes()
