@@ -27,6 +27,7 @@ app.use(router.routes()).use(router.allowedMethods())
 // 配置路由
 router.use('/api/user', require('./routes/api/user'))
 router.use('/api/groupchart', require('./routes/api/groupChat'))
+router.use('/api/friends', require('./routes/api/friends'))
 
 // 连接数据库
 mongoose
