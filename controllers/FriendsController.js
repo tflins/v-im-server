@@ -64,14 +64,21 @@ class FriendsController {
     console.log(findResult)
     if (findResult.length) {
       // 更新
-      const upadteResult = await Friends.updateOne({ userid: ctx.state.user.id }, {
-        '$addToSet': {
-          friendids: ctx.request.body
+      const upadteResult = await Friends.updateOne(
+        { userid: ctx.state.user.id },
+        {
+          $addToSet: {
+            friendids: ctx.request.body
+          }
         }
-      })
+      )
 
       if (upadteResult.ok && upadteResult.n) {
-        console.log('更新成功')
+        ctx.body = {
+          success: true,
+          data: item,
+          msg: '已同意添加好友'
+        }
       }
     } else {
       // 创建
@@ -85,7 +92,7 @@ class FriendsController {
           ctx.body = {
             success: true,
             data: item,
-            msg: '发生好友请求成功,静待答复'
+            msg: '已同意添加好友'
           }
         })
         .catch(err => {
