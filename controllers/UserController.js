@@ -90,7 +90,7 @@ class UserController {
 
   // 根据昵称获取用户
   static async getName(ctx) {
-    const findResult = await User.find({name: ctx.query.name})
+    const findResult = await User.find({name: {$regex: ctx.query.name}})
     if (findResult.length) {
       ctx.body = {
         success: true,

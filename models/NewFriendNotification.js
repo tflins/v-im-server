@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 // 实例化数据模板
 const NewFriendNotificationSchema = new Schema({
   from_uid: {
-    type: String
+    type: Schema.Types.ObjectId,
+    ref: 'user'
   },
   to_uid: {
     type: String

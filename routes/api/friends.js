@@ -22,7 +22,29 @@ router.post(
 router.get(
   '/getnewfriends',
   passport.authenticate('jwt', { session: false }),
+  FriendsCtrl.getnewfriends
+)
+
+/**
+ * @router GET /api/friens/getfriendslist
+ * @desc 获取好友列表
+ * @access 接口是私密的
+ */
+router.get(
+  '/getfriendslist',
+  passport.authenticate('jwt', { session: false }),
   async ctx => {}
+)
+
+/**
+ * @router GET /api/friens/addfriends
+ * @desc 添加好友
+ * @access 接口是私密的
+ */
+router.post(
+  '/addfriends',
+  passport.authenticate('jwt', { session: false }),
+  FriendsCtrl.addfriends
 )
 
 module.exports = router.routes()
