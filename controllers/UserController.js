@@ -104,6 +104,22 @@ class UserController {
       }
     }
   }
+
+  // 根据用户id获取用户
+  static async getUserById(ctx) {
+    const findResult = await User.findById(ctx.query.uid)
+    if (JSON.stringify(findResult) !== '{}') {
+      ctx.body = {
+        success: true,
+        data: findResult
+      }
+    } else {
+      ctx.body = {
+        success: false,
+        msg: '无该用户'
+      }
+    }
+  }
 }
 
 module.exports = UserController

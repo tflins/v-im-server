@@ -41,4 +41,15 @@ router.get(
   userCtrl.getName
 )
 
+/**
+ * @router GET /api/user/getuserbyid
+ * @desc 根据 id 获取用户信息
+ * @access 接口是私密的
+ */
+router.get(
+  '/getuserbyid',
+  passport.authenticate('jwt', { session: false }),
+  userCtrl.getUserById
+)
+
 module.exports = router.routes()
