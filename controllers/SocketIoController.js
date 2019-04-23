@@ -9,8 +9,14 @@ class SocketIoController {
       { socketid: socket.id }
     )
     if (upadteResult.ok && upadteResult.n) {
-      console.log('持久化 socketid 成功')
+      // console.log('持久化 socketid 成功')
     }
+  }
+
+  // 私聊
+  static async privateMsg(data, socket) {
+    // 根据 uid 从数据库中查出 socket.id
+    // console.log(data)
   }
 }
 

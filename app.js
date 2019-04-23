@@ -28,6 +28,7 @@ app.use(router.routes()).use(router.allowedMethods())
 router.use('/api/user', require('./routes/api/user'))
 router.use('/api/groupchart', require('./routes/api/groupChat'))
 router.use('/api/friends', require('./routes/api/friends'))
+router.use('/api/privatechat', require('./routes/api/privatechat'))
 
 // 连接数据库
 mongoose
@@ -54,6 +55,11 @@ io.on('connection', socket => {
   // 群聊
   socket.on('sendGroupMsg', async data => {
     io.sockets.emit('receiveGroupMsg', data)
+  })
+
+  // 私聊
+  socket.on('sendPrivateMsg', data => {
+    SocketIoController.privateMsg(data, socket)
   })
 })
 

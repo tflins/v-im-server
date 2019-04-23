@@ -5,7 +5,7 @@ const FriendsSchema = new Schema({
   userid: {
     type: String
   },
-  friendids: {
+  friends: {
     type: Array
   }
 })

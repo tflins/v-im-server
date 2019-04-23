@@ -33,7 +33,7 @@ router.get(
 router.get(
   '/getfriendslist',
   passport.authenticate('jwt', { session: false }),
-  async ctx => {}
+  FriendsCtrl.getfriendslist
 )
 
 /**

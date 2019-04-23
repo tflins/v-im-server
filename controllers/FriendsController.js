@@ -60,33 +60,89 @@ class FriendsController {
   // 添加好友
   static async addfriends(ctx) {
     // 查询数据库中是否存在该用户的用户信息
-    const findResult = await Friends.find({ userid: ctx.state.user.id })
-    console.log(findResult)
-    if (findResult.length) {
+    const findResult1 = await Friends.find({ userid: ctx.state.user.id })
+    const findResult2 = await Friends.find({ userid: ctx.request.body.userid })
+    if (findResult1.length) {
       // 更新
       const upadteResult = await Friends.updateOne(
         { userid: ctx.state.user.id },
         {
           $addToSet: {
-            friendids: ctx.request.body
+            friends: ctx.request.body
           }
         }
       )
-
       if (upadteResult.ok && upadteResult.n) {
         ctx.body = {
           success: true,
-          data: item,
+          msg: '已同意添加好友'
+        }
+        // 从好友信息中删除
+        const removeResult = await NewFriendNotification.deleteOne({
+          from_uid: ctx.request.body.userid,
+          to_uid: ctx.state.user.id
+        })
+      }
+    } else {
+      // 创建
+      const item1 = new Friends({
+        userid: ctx.state.user.id,
+        friends: [ctx.request.body]
+      })
+      await item1
+        .save()
+        .then(item => {
+          ctx.body = {
+            success: true,
+            data: item,
+            msg: '已同意添加好友'
+          }
+          // 从好友信息中删除
+          NewFriendNotification.remove(
+            {
+              from_uid: ctx.state.user.id,
+              to_uid: ctx.request.body.userid
+            },
+            err => {
+              if (!err) console.log('删除成功')
+            }
+          )
+        })
+        .catch(err => {
+          throw err
+        })
+    }
+    if (findResult2.length) {
+      // 更新
+      const upadteResult = await Friends.updateOne(
+        { userid: ctx.request.body.userid },
+        {
+          $addToSet: {
+            friends: {
+              userid: ctx.state.user.id,
+              name: ctx.state.user.name
+            }
+          }
+        }
+      )
+      if (upadteResult.ok && upadteResult.n) {
+        ctx.body = {
+          success: true,
           msg: '已同意添加好友'
         }
       }
     } else {
       // 创建
-      const item = new Friends({
-        userid: ctx.state.user.id,
-        friendids: [ctx.request.body]
+      const item1 = new Friends({
+        userid: ctx.request.body.userid,
+        friends: [
+          {
+            userid: ctx.state.user.id,
+            name: ctx.state.user.name
+          }
+        ]
       })
-      await item
+      await item1
         .save()
         .then(item => {
           ctx.body = {
@@ -98,6 +154,24 @@ class FriendsController {
         .catch(err => {
           throw err
         })
+    }
+  }
+
+  // 获取好友列表接口
+  static async getfriendslist(ctx) {
+    // 从数据库中查询
+    const findResult = await Friends.find({ userid: ctx.state.user.id })
+    if (findResult.length) {
+      ctx.body = {
+        success: true,
+        data: findResult,
+        msg: '查询成功'
+      }
+    } else {
+      ctx.body = {
+        success: false,
+        msg: '暂无数据'
+      }
     }
   }
 }
